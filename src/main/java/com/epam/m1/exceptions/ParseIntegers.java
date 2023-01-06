@@ -1,5 +1,6 @@
 package com.epam.m1.exceptions;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -19,9 +20,20 @@ public class ParseIntegers {
         Iterator<String> words = WORDS.iterator();
         int sum = 0;
         String justWords = "";
+
         while (words.hasNext()) {
             String next = words.next();
-            int number = Integer.parseInt(next);
+            int s = 0;
+            try {
+                for (int i = 0; i < next.length(); i++) {
+                    if (next.charAt(i) >= '0' && next.charAt(i) <= '9') s++;
+                }
+                if (s == next.length()) {
+                    sum += Integer.parseInt("0" + next);
+                } else justWords += " " + next;
+            } catch (NumberFormatException e) {
+                throw new IllegalStateException(e);
+            }
             // todo: complete it
         }
         System.out.println("Sum is " + sum);
